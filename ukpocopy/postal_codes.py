@@ -1,3 +1,5 @@
+import re
+
 from ukpocopy.exceptions import InvalidPostalCodeException
 from ukpocopy.validators import validate_uk_postal_code
 
@@ -22,3 +24,7 @@ class UKPostalCode(object):
     @property
     def inward_code(self):
         return self.code.split(' ')[1]
+
+    @property
+    def postcode_area(self):
+        return re.match("(^[a-zA-Z]+)", self.code).group(0)

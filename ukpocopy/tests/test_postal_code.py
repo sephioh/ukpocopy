@@ -23,3 +23,11 @@ class TestUKPostalCode(TestCase):
     def test_retrieve_inward_code(self):
         postal_code = UKPostalCode("SW1W 0NY")
         self.assertEqual("0NY", postal_code.inward_code)
+
+    def test_retrieve_postcode_area_with_two_chars(self):
+        postal_code = UKPostalCode("SW1W 0NY")
+        self.assertEqual("SW", postal_code.postcode_area)
+
+    def test_retrieve_postcode_area_with_single_char(self):
+        postal_code = UKPostalCode("L1 8JQ")
+        self.assertEqual("L", postal_code.postcode_area)
