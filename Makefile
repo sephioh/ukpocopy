@@ -1,3 +1,6 @@
+bump_version:
+	bumpversion patch
+
 publish:
 	pip install twine
 	python setup.py sdist
