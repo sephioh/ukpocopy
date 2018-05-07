@@ -31,3 +31,15 @@ class TestUKPostalCode(TestCase):
     def test_retrieve_postcode_area_with_single_char(self):
         postal_code = UKPostalCode("L1 8JQ")
         self.assertEqual("L", postal_code.postcode_area)
+
+    def test_retrieve_postcode_district(self):
+        postal_code = UKPostalCode("L1 8JQ")
+        self.assertEqual("L1", postal_code.postcode_district)
+
+    def test_retrieve_postcode_sector(self):
+        postal_code = UKPostalCode("L1 8JQ")
+        self.assertEqual("L1 8", postal_code.postcode_sector)
+
+    def test_retrieve_postcode_unit(self):
+        postal_code = UKPostalCode("L1 8JQ")
+        self.assertEqual("JQ", postal_code.postcode_unit)

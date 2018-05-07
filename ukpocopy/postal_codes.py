@@ -5,6 +5,7 @@ from ukpocopy.validators import validate_uk_postal_code
 
 
 class UKPostalCode(object):
+    __POSTCODE_AREA_REGEX_PATTERN = "(^[a-zA-Z]+)"
     __validator = validate_uk_postal_code
 
     def __init__(self, postal_code):
@@ -27,4 +28,16 @@ class UKPostalCode(object):
 
     @property
     def postcode_area(self):
-        return re.match("(^[a-zA-Z]+)", self.code).group(0)
+        return re.match(self.__POSTCODE_AREA_REGEX_PATTERN, self.outward_code).group(0)
+
+    @property
+    def postcode_district(self):
+        return self.outward_code
+
+    @property
+    def postcode_sector(self):
+        return "%s %s" % (self.outward_code, self.inward_code[0])
+
+    @property
+    def postcode_unit(self):
+        return self.inward_code[-2:]

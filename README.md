@@ -33,10 +33,13 @@ postal_code = UKPostalCode("0000 000")  # raises InvalidPostalCodeException
 ```
 
 ## Formatting
-`UKPostalCode` has the following attributes you want to use in order to format postal codes:
-* Outward code
-* Inward code
-* Postcode area
+`UKPostalCode` has the following attributes you want to use in order to format UK postal codes:
+* outward_code
+* inward_code
+* postcode_area
+* postcode_district
+* postcode_sector
+* postcode_unit
 
 # Testing
 Run tests using this command:
