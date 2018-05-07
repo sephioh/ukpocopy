@@ -8,5 +8,5 @@ publish:
 	rm -fr build dist
 
 test:
-	tox
+	nosetests --with-coverage
 
