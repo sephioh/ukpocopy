@@ -10,21 +10,25 @@ Install using `pip`:
 pip install -U ukpocopy
 ```
 
-
 # How to use
 
 ## Validation
+You can use validators functions directly:
+```
+import validate_uk_postal_code from ukpocopy.validators
 
-You can validate UK postal codes using an instance of `UKPostalCode`, like this:
+
+validate_uk_postal_code("SW1W 0NY")  # returns True
+validate_uk_postal_code("0000 000")  # returns False
+```
+
+UK postal code validations also happens during `UKPostalCode` instantiation, like this:
 ```
 import UKPostalCode from ukpocopy
 
 
-postal_code = UKPostalCode("SW1W 0NY") # valid
-postal_code.is_valid() # returns True
-
-postal_code = UKPostalCode("0000 000") # invalid
-postal_code.is_valid() # returns False
+postal_code = UKPostalCode("SW1W 0NY")  # returns UKPostalCode instance
+postal_code = UKPostalCode("0000 000")  # raises InvalidPostalCodeException
 ```
 
 # Testing
