@@ -17,5 +17,9 @@ class TestUKPostalCode(TestCase):
             UKPostalCode(INVALID_UK_POSTAL_CODE)
 
     def test_retrieve_outward_code(self):
-        with self.assertRaises(InvalidPostalCodeException):
-            UKPostalCode(INVALID_UK_POSTAL_CODE)
+        postal_code = UKPostalCode("SW1W 0NY")
+        self.assertEqual("SW1W", postal_code.outward_code)
+
+    def test_retrieve_inward_code(self):
+        postal_code = UKPostalCode("SW1W 0NY")
+        self.assertEqual("0NY", postal_code.inward_code)

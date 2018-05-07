@@ -32,6 +32,11 @@ postal_code = UKPostalCode("SW1W 0NY")  # returns UKPostalCode instance
 postal_code = UKPostalCode("0000 000")  # raises InvalidPostalCodeException
 ```
 
+## Formatting
+`UKPostalCode` has the following attributes you want to use in order to format postal codes:
+* Outward code
+* Inward code
+
 # Testing
 Run tests using this command:
 ```
