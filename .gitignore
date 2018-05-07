@@ -12,3 +12,6 @@ venv/
 
 # Pycharm project folder
 .idea/* 
+
+# code coverage report
+.coverage

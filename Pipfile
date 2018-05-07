@@ -9,6 +9,7 @@ name = "pypi"
 twine = "*"
 nose = "*"
 bumpversion = "*"
+codecov = "*"
 
 [requires]
 python_version = "3.6"

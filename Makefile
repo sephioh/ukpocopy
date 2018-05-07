@@ -8,4 +8,5 @@ publish:
 	rm -fr build dist
 
 test:
-	nosetests
+	nosetests --with-coverage
+
