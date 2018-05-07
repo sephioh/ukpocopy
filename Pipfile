@@ -10,6 +10,7 @@ twine = "*"
 nose = "*"
 bumpversion = "*"
 codecov = "*"
+tox = "*"
 
 [requires]
 python_version = "3.6"

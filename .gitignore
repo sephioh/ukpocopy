@@ -15,3 +15,6 @@ venv/
 
 # code coverage report
 .coverage
+
+# tox reports 
+.tox
