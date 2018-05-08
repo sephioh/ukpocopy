@@ -27,7 +27,7 @@ validate_uk_postal_code("0000 000")  # returns False
 
 UK postal code validations also happens during `UKPostalCode` instantiation, like this:
 ```
-import UKPostalCode from ukpocopy
+from ukpocopy.postal_codes import UKPostalCode
 
 
 postal_code = UKPostalCode("SW1W 0NY")  # returns UKPostalCode instance
