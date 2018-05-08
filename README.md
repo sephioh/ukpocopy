@@ -36,7 +36,7 @@ postcode = UKPostcode("0000 000")  # raises InvalidPostcodeException
 
 ## Formatting
 `ukpocopy` uses [formatted string literals](https://docs.python.org/3/reference/lexical_analysis.html#formatted-string-literals) to format postcodes.
-`UKPostcode` has the following attributes you want to use in order to format UK postcodes using :
+`UKPostcode` has the following attributes you want to use in order to render them the way you need:
 * [outward_code](https://en.wikipedia.org/wiki/Postcodes_in_the_United_Kingdom#Outward_code)
 * [inward_code](https://en.wikipedia.org/wiki/Postcodes_in_the_United_Kingdom#Inward_code)
 * [postcode_area](https://en.wikipedia.org/wiki/Postcodes_in_the_United_Kingdom#Postcode_area)
@@ -47,12 +47,14 @@ postcode = UKPostcode("0000 000")  # raises InvalidPostcodeException
 ### Examples
 #### Display postcode without space
 ```
-f"{postcode.outward_code}{postcode.inward_code}"
+postcode = UKPostcode("SW1W 0NY")
+f"{postcode.outward_code}{postcode.inward_code}"  # returns "SW1W0NY"
 ```
 
 #### Display postcode with lower case letters
 ```
-f"{postcode.code.lower()}"
+postcode = UKPostcode("SW1W 0NY")
+f"{postcode.code.lower()}"  # returns "sw1w 0ny"
 ```
 
 # Testing
@@ -63,4 +65,4 @@ make test
 
 # License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
