@@ -12,11 +12,14 @@ class UKPostcode(object):
         if not self.__validate(postcode):
             raise InvalidPostcodeException
 
-        self.code = postcode
+        self.code = postcode.upper()
 
     @classmethod
     def __validate(cls, postcode):
         return cls.__validator(postcode)
+
+    def __str__(self):
+        return self.code
 
     @property
     def outward_code(self):
