@@ -25,7 +25,7 @@ validate_postcode("SW1W 0NY")  # returns True
 validate_postcode("0000 000")  # returns False
 ```
 
-Postcode validations also happens during `UKPostcode` instantiation, like this:
+Postcode validations also happens during `UKPostcode` instantiation:
 ```
 from ukpocopy.postcodes import UKPostcode
 
@@ -48,3 +48,7 @@ Run tests using this command:
 ```
 make test
 ```
+
+# License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
