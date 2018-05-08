@@ -1,2 +1,2 @@
-class InvalidPostalCodeException(Exception):
+class InvalidPostcodeException(Exception):
     pass

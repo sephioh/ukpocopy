@@ -1,22 +1,22 @@
 import re
 
-from ukpocopy.exceptions import InvalidPostalCodeException
-from ukpocopy.validators import validate_uk_postal_code
+from ukpocopy.exceptions import InvalidPostcodeException
+from ukpocopy.validators import validate_uk_postcode
 
 
-class UKPostalCode(object):
+class UKPostcode(object):
     __POSTCODE_AREA_REGEX_PATTERN = "(^[a-zA-Z]+)"
-    __validator = validate_uk_postal_code
+    __validator = validate_uk_postcode
 
-    def __init__(self, postal_code):
-        if not self.__validate(postal_code):
-            raise InvalidPostalCodeException
+    def __init__(self, postcode):
+        if not self.__validate(postcode):
+            raise InvalidPostcodeException
 
-        self.code = postal_code
+        self.code = postcode
 
     @classmethod
-    def __validate(cls, postal_code):
-        return cls.__validator(postal_code)
+    def __validate(cls, postcode):
+        return cls.__validator(postcode)
 
     @property
     def outward_code(self):
