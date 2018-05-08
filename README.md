@@ -16,9 +16,9 @@ pip install -U ukpocopy
 # How to use
 
 ## Validation
-You can use validators functions directly:
+To validate a postcode, you can use `validate_postcode` function directly:
 ```
-import validate_uk_postcode from ukpocopy.validators
+from ukpocopy.validators validate_postcode
 
 
 validate_postcode("SW1W 0NY")  # returns True
