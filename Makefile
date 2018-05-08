@@ -1,5 +1,11 @@
-bump_version:
+bump_patch_version:
 	bumpversion patch
+
+bump_minor_version:
+	bumpversion minor
+
+bump_major_version:
+	bumpversion major
 
 publish:
 	pip install twine
@@ -9,4 +15,3 @@ publish:
 
 test:
 	nosetests --with-coverage
-
