@@ -3,6 +3,7 @@ import re
 POSTCODE_AREA_REGEX_PATTERN = "(^[a-zA-Z]+)"
 POSTCODE_DISTRICT_DIGITS_REGEX_PATTERN = "^[a-zA-Z]+(\d{1,2})"
 A9A_REGEX_PATTERN = '^[a-zA-Z]\d[a-zA-Z]\s'
+AA9A_REGEX_PATTERN = '^[a-zA-Z]{2}\d[a-zA-Z]\s'
 
 AREAS_WITH_ONLY_SINGLE_DIGIT_DISTRICT = [
     "BR", "FY", "HA", "HD", "HG", "HR", "HS", "HX", "JE", "LD", "SM", "SR", "WC", "WN", "ZE"
@@ -14,6 +15,9 @@ VALID_THIRD_POSITION_LETTERS_FOR_A9A_FORMAT = [
     "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "P", "S", "T", "U", "W"
 ]
 
+VALID_FOURTH_POSITION_LETTERS_FOR_AA9A_FORMAT = [
+    "A", "B", "E", "H", "M", "N", "P", "R", "V", "W", "X", "Y"
+]
 
 
 def validate_postcode(code):
@@ -23,7 +27,9 @@ def validate_postcode(code):
         validate_double_digit_district,
         validate_zero_district,
         validate_first_position_letter,
-        validate_second_position_letter
+        validate_second_position_letter,
+        validate_third_position_letter,
+        validate_fourth_position_letter
     ]
 
     for validation_rule in validation_rules:
@@ -87,7 +93,18 @@ def validate_second_position_letter(code):
 def validate_third_position_letter(code):
     third_position_letter = code[2].upper()
 
-    if re.match(A9A_REGEX_PATTERN, code) and third_position_letter not in VALID_THIRD_POSITION_LETTERS_FOR_A9A_FORMAT:
+    if re.match(A9A_REGEX_PATTERN, code) and \
+            third_position_letter not in VALID_THIRD_POSITION_LETTERS_FOR_A9A_FORMAT:
+        return False
+
+    return True
+
+
+def validate_fourth_position_letter(code):
+    fourth_position_letter = code[3].upper()
+
+    if re.match(AA9A_REGEX_PATTERN, code) and \
+            fourth_position_letter not in VALID_FOURTH_POSITION_LETTERS_FOR_AA9A_FORMAT:
         return False
 
     return True
