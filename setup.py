@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='ukpocopy',
-      version='0.2.1',
+      version='1.0.0',
       description='A python package for UK Postcode validation and formatting.',
       long_description='A python package for UK Postcode validation and formatting.',
       python_requires='>=3.6',
