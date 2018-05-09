@@ -19,6 +19,8 @@ VALID_FOURTH_POSITION_LETTERS_FOR_AA9A_FORMAT = [
     "A", "B", "E", "H", "M", "N", "P", "R", "V", "W", "X", "Y"
 ]
 
+INVALID_FINAL_LETTERS = ["C", "I", "K", "M", "O", "V"]
+
 
 def validate_postcode(code):
     validation_rules = [
@@ -29,7 +31,8 @@ def validate_postcode(code):
         validate_first_position_letter,
         validate_second_position_letter,
         validate_third_position_letter,
-        validate_fourth_position_letter
+        validate_fourth_position_letter,
+        validate_final_two_letters
     ]
 
     for validation_rule in validation_rules:
@@ -105,6 +108,16 @@ def validate_fourth_position_letter(code):
 
     if re.match(AA9A_REGEX_PATTERN, code) and \
             fourth_position_letter not in VALID_FOURTH_POSITION_LETTERS_FOR_AA9A_FORMAT:
+        return False
+
+    return True
+
+
+def validate_final_two_letters(code):
+    last_letter = code[-1].upper()
+    next_to_last_letter = code[-2].upper()
+
+    if last_letter in INVALID_FINAL_LETTERS or next_to_last_letter in INVALID_FINAL_LETTERS:
         return False
 
     return True

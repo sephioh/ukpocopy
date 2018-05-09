@@ -2,7 +2,8 @@ from unittest import TestCase
 
 from ukpocopy.validators import validate_postcode, validate_single_digit_district, \
     validate_double_digit_district, validate_zero_district, validate_first_position_letter, \
-    validate_second_position_letter, validate_third_position_letter, validate_fourth_position_letter
+    validate_second_position_letter, validate_third_position_letter, \
+    validate_fourth_position_letter, validate_final_two_letters
 
 VALID_POSTCODE = "SW1W 0NY"
 VALID_POSTCODE_WITH_AA9A_9AA_FORMAT = "EC1A 1BB"
@@ -142,3 +143,14 @@ class TestFourthPositionLetterValidator(TestCase):
 
     def test_invalid_fourth_letter_for_AA9A_format(self):
         self.assertFalse(validate_fourth_position_letter("EC1C 1BB"))
+
+
+class TestFinalTwoLettersValidator(TestCase):
+    def test_valid_final_two_letters(self):
+        self.assertTrue(validate_final_two_letters("W1A 0AX"))
+
+    def test_invalid_final_letter(self):
+        self.assertFalse(validate_final_two_letters("W1A 0AC"))
+
+    def test_invalid_next_to_last_letter(self):
+        self.assertFalse(validate_final_two_letters("W1A 0CX"))
