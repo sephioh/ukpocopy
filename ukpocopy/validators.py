@@ -2,12 +2,18 @@ import re
 
 POSTCODE_AREA_REGEX_PATTERN = "(^[a-zA-Z]+)"
 POSTCODE_DISTRICT_DIGITS_REGEX_PATTERN = "^[a-zA-Z]+(\d{1,2})"
+A9A_REGEX_PATTERN = '^[a-zA-Z]\d[a-zA-Z]\s'
 
 AREAS_WITH_ONLY_SINGLE_DIGIT_DISTRICT = [
     "BR", "FY", "HA", "HD", "HG", "HR", "HS", "HX", "JE", "LD", "SM", "SR", "WC", "WN", "ZE"
 ]
 AREAS_WITH_ONLY_DOUBLE_DIGIT_DISTRICT = ["AB", "LL", "SO"]
 AREAS_WITH_ZERO_DIGIT_DISTRICT = ["BL", "BS", "CM", "CR", "FY", "HA", "PR", "SL", "SS"]
+
+VALID_THIRD_POSITION_LETTERS_FOR_A9A_FORMAT = [
+    "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "P", "S", "T", "U", "W"
+]
+
 
 
 def validate_postcode(code):
@@ -76,6 +82,15 @@ def validate_first_position_letter(code):
 def validate_second_position_letter(code):
     second_position_letter = code[1].upper()
     return False if second_position_letter in ['I', 'J', 'Z'] else True
+
+
+def validate_third_position_letter(code):
+    third_position_letter = code[2].upper()
+
+    if re.match(A9A_REGEX_PATTERN, code) and third_position_letter not in VALID_THIRD_POSITION_LETTERS_FOR_A9A_FORMAT:
+        return False
+
+    return True
 
 
 def _retrieve_postcode_area(code):
