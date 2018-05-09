@@ -60,7 +60,7 @@ All validation errors inherit from `PostcodeValidationError` exception. This is 
 * InvalidTenDigitForDistrictAreaValidationError
 * InvalidThirdPositionLetterValidationError
 * InvalidZeroDigitForDistrictAreaValidationError
-
+* InvalidCentralLondonSingleDigitDistrictValidationError
 
 ## Formatting
 `ukpocopy` uses [formatted string literals](https://docs.python.org/3/reference/lexical_analysis.html#formatted-string-literals) to format postcodes.

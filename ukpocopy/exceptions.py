@@ -50,3 +50,8 @@ class InvalidFourthPositionLetterValidationError(PostcodeValidationError):
 class InvalidFinalTwoLettersError(PostcodeValidationError):
     """Given postcode two final letters are invalid"""
     pass
+
+
+class InvalidCentralLondonSingleDigitDistrictValidationError(PostcodeValidationError):
+    """Given Central London single digit district is invalid"""
+    pass

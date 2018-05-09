@@ -5,12 +5,15 @@ from ukpocopy.exceptions import InvalidSingleDigitDistrictValidationError, \
     InvalidTenDigitForDistrictAreaValidationError, PostcodeValidationError, \
     InvalidFirstPositionLetterValidationError, InvalidSecondPositionLetterValidationError, \
     InvalidThirdPositionLetterValidationError, InvalidFourthPositionLetterValidationError, \
-    InvalidFinalTwoLettersError, InvalidPostcodeFormatValidationError
+    InvalidFinalTwoLettersError, InvalidPostcodeFormatValidationError, \
+    InvalidCentralLondonSingleDigitDistrictValidationError
 
 POSTCODE_AREA_REGEX_PATTERN = "(^[a-zA-Z]+)"
 POSTCODE_DISTRICT_DIGITS_REGEX_PATTERN = "^[a-zA-Z]+(\d{1,2})"
 A9A_REGEX_PATTERN = '^[a-zA-Z]\d[a-zA-Z]\s'
 AA9A_REGEX_PATTERN = '^[a-zA-Z]{2}\d[a-zA-Z]\s'
+A9A_or_AA9A_REGEX_PATTERN = "^[a-zA-Z]{1,2}\d[a-zA-Z]"
+
 
 AREAS_WITH_ONLY_SINGLE_DIGIT_DISTRICT = [
     "BR", "FY", "HA", "HD", "HG", "HR", "HS", "HX", "JE", "LD", "SM", "SR", "WC", "WN", "ZE"
@@ -39,7 +42,8 @@ def validate_postcode(code):
         validate_second_position_letter,
         validate_third_position_letter,
         validate_fourth_position_letter,
-        validate_final_two_letters
+        validate_final_two_letters,
+        validate_central_london_single_digit_district
     ]
 
     for validate_rule in validate_rules:
@@ -121,6 +125,30 @@ def validate_final_two_letters(code):
 
     if last_letter in INVALID_FINAL_LETTERS or next_to_last_letter in INVALID_FINAL_LETTERS:
         raise InvalidFinalTwoLettersError
+
+
+def validate_central_london_single_digit_district(code):
+    CENTRAL_LONDON_SINGLE_DIGIT_DISTRICTS_WITHOUT_LAST_LETTER = [
+        "EC1", "EC2", "EC3", "EC4", "SW1", "W1", "WC1", "WC2"
+    ]
+
+    OTHER_POSSIBLE_CENTRAL_LONDON_SINGLE_DIGIT_DISTRICTS_WITH_LAST_LETTER = [
+        "E1W", "N1C", "N1P", "NW1W", "SE1P"
+    ]
+
+    if re.match(A9A_or_AA9A_REGEX_PATTERN, code):
+        postcode_district = _retrieve_postcode_district(code)
+        district_code_without_last_letter = postcode_district[:-1]
+
+        if district_code_without_last_letter not in CENTRAL_LONDON_SINGLE_DIGIT_DISTRICTS_WITHOUT_LAST_LETTER:
+            if postcode_district in OTHER_POSSIBLE_CENTRAL_LONDON_SINGLE_DIGIT_DISTRICTS_WITH_LAST_LETTER:
+                return None
+
+            raise InvalidCentralLondonSingleDigitDistrictValidationError
+
+
+def _retrieve_postcode_district(code):
+    return code.split(' ')[0].upper()
 
 
 def _retrieve_postcode_area(code):

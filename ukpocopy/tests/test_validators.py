@@ -5,11 +5,13 @@ from ukpocopy.exceptions import InvalidSingleDigitDistrictValidationError, \
     InvalidTenDigitForDistrictAreaValidationError, InvalidFirstPositionLetterValidationError, \
     InvalidSecondPositionLetterValidationError, InvalidThirdPositionLetterValidationError, \
     InvalidFourthPositionLetterValidationError, InvalidFinalTwoLettersError, \
-    InvalidPostcodeFormatValidationError, PostcodeValidationError
+    InvalidPostcodeFormatValidationError, PostcodeValidationError, \
+    InvalidCentralLondonSingleDigitDistrictValidationError
 from ukpocopy.validators import validate_postcode, validate_single_digit_district, \
     validate_double_digit_district, validate_zero_district, validate_first_position_letter, \
     validate_second_position_letter, validate_third_position_letter, \
-    validate_fourth_position_letter, validate_final_two_letters, validate_postcode_using_regex
+    validate_fourth_position_letter, validate_final_two_letters, validate_postcode_using_regex, \
+    validate_central_london_single_digit_district
 
 
 class TestValidatePostcode(TestCase):
@@ -179,3 +181,39 @@ class TestFinalTwoLettersValidator(TestCase):
     def test_invalid_next_to_last_letter(self):
         with self.assertRaises(InvalidFinalTwoLettersError):
             self.assertFalse(validate_final_two_letters("W1A 0CX"))
+
+
+class TestCentralLondonSingleDigitDistrictValidator(TestCase):
+    def test_valid_postcode(self):
+        self.assertIsNone(validate_central_london_single_digit_district("EC1A 1BB"))
+
+    def test_E1_postcode_districts_can_have_W_letter_after_digit(self):
+        self.assertIsNone(validate_central_london_single_digit_district("E1W 1BB"))
+
+    def test_E1_postcode_districts_cannot_have_other_letters_than_W_after_digit(self):
+        with self.assertRaises(InvalidCentralLondonSingleDigitDistrictValidationError):
+            validate_central_london_single_digit_district("E1A 1BB")
+
+    def test_N1_postcode_districts_can_have_C_letter_after_digit(self):
+        self.assertIsNone(validate_central_london_single_digit_district("N1C 1BB"))
+
+    def test_N1_postcode_districts_can_have_P_letter_after_digit(self):
+        self.assertIsNone(validate_central_london_single_digit_district("N1P 1BB"))
+
+    def test_N1_postcode_districts_cannot_have_other_letters_than_C_and_P_after_digit(self):
+        with self.assertRaises(InvalidCentralLondonSingleDigitDistrictValidationError):
+            validate_central_london_single_digit_district("N1A 1BB")
+
+    def test_NW1_postcode_districts_can_have_W_letter_after_digit(self):
+        self.assertIsNone(validate_central_london_single_digit_district("NW1W 1BB"))
+
+    def test_NW1_postcode_districts_cannot_have_other_letters_than_W_after_digit(self):
+        with self.assertRaises(InvalidCentralLondonSingleDigitDistrictValidationError):
+            validate_central_london_single_digit_district("NW1A 1BB")
+
+    def test_SE1_postcode_districts_can_have_P_letter_after_digit(self):
+        self.assertIsNone(validate_central_london_single_digit_district("SE1P 1BB"))
+
+    def test_SE1_postcode_districts_cannot_have_other_letters_than_P_after_digit(self):
+        with self.assertRaises(InvalidCentralLondonSingleDigitDistrictValidationError):
+            validate_central_london_single_digit_district("SE1A 1BB")
