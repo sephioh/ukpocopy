@@ -7,13 +7,15 @@ AREAS_WITH_ONLY_SINGLE_DIGIT_DISTRICT = [
     "BR", "FY", "HA", "HD", "HG", "HR", "HS", "HX", "JE", "LD", "SM", "SR", "WC", "WN", "ZE"
 ]
 AREAS_WITH_ONLY_DOUBLE_DIGIT_DISTRICT = ["AB", "LL", "SO"]
+AREAS_WITH_ZERO_DIGIT_DISTRICT = ["BL", "BS", "CM", "CR", "FY", "HA", "PR", "SL", "SS"]
 
 
 def validate_postcode(code):
     validation_rules = [
         validate_postcode_using_regex,
         validate_single_digit_district,
-        validate_double_digit_district
+        validate_double_digit_district,
+        validate_zero_district
     ]
 
     for validation_rule in validation_rules:
@@ -51,9 +53,22 @@ def validate_double_digit_district(code):
     return True
 
 
+def validate_zero_district(code):
+    area = _retrieve_postcode_area(code)
+    district_digits = _retrieve_postcode_district_digits(code)
+
+    if area in AREAS_WITH_ZERO_DIGIT_DISTRICT and district_digits != '0':
+        if area == 'BS' and district_digits == '10':
+            return True
+
+        return False
+
+    return True
+
+
 def _retrieve_postcode_area(code):
     area = re.match(POSTCODE_AREA_REGEX_PATTERN, code).group(0)
-    return area
+    return area.upper()
 
 
 def _retrieve_postcode_district_digits(code):

@@ -1,14 +1,14 @@
 from unittest import TestCase
 
 from ukpocopy.validators import validate_postcode, validate_single_digit_district, \
-    validate_double_digit_district
+    validate_double_digit_district, validate_zero_district
 
 VALID_POSTCODE = "SW1W 0NY"
 VALID_POSTCODE_WITH_AA9A_9AA_FORMAT = "EC1A 1BB"
 VALID_POSTCODE_WITH_A9A_9AA_FORMAT = "W1A 0AX"
 VALID_POSTCODE_WITH_A9_9AA_FORMAT = "M1 1AE"
 VALID_POSTCODE_WITH_A99_9AA_FORMAT = "B33 8TH"
-VALID_POSTCODE_WITH_AA9_9AA_FORMAT = "CR2 6XH"
+VALID_POSTCODE_WITH_AA9_9AA_FORMAT = "CR0 6XH"
 VALID_POSTCODE_WITH_AA99_9AA_FORMAT = "DN55 1PT"
 VALID_POSTCODE_WITH_LOWER_CASE_LETTERS = "dn55 1pt"
 VALID_POSTCODE_WITH_MIXED_CASE_LETTERS = "dn55 1PT"
@@ -79,4 +79,21 @@ class TestDoubleDigitDistrictValidator(TestCase):
         self.assertFalse(validate_double_digit_district("AB1 1TB"))
 
     def test_no_restriction_for_non_double_digit_district_area(self):
+        self.assertTrue(validate_double_digit_district("BR3 4TU"))
+
+
+class TestZeroDistrictValidator(TestCase):
+    def test_zero_district_area(self):
+        self.assertTrue(validate_zero_district("BL0 0AA"))
+
+    def test_BS_area_is_valid_with_10_district_area_digits(self):
+        self.assertTrue(validate_zero_district("BS10 0AA"))
+
+    def test_BS_area_is_invalid_with_other_district_area_digits(self):
+        self.assertFalse(validate_zero_district("BS9 0AA"))
+
+    def test_non_zero_district_for_zero_district_area_returns_false(self):
+        self.assertFalse(validate_zero_district("BL1 0AA"))
+
+    def test_no_restriction_for_non_zero_district_area(self):
         self.assertTrue(validate_double_digit_district("BR3 4TU"))
