@@ -74,10 +74,10 @@ def validate_zero_district(code):
     area = _retrieve_postcode_area(code)
     district_digits = _retrieve_postcode_district_digits(code)
 
-    if area in AREAS_WITH_ZERO_DIGIT_DISTRICT and district_digits != '0':
-        if area == 'BS' and district_digits == '10':
-            return True
+    if area not in AREAS_WITH_ZERO_DIGIT_DISTRICT and district_digits == '0':
+        return False
 
+    if area in AREAS_WITH_ZERO_DIGIT_DISTRICT and area != 'BS' and district_digits == '10':
         return False
 
     return True

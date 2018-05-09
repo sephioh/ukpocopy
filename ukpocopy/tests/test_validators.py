@@ -88,14 +88,17 @@ class TestZeroDistrictValidator(TestCase):
     def test_zero_district_area(self):
         self.assertTrue(validate_zero_district("BL0 0AA"))
 
+    def test_BL_area_cannot_have_10_as_district_area_digits(self):
+        self.assertFalse(validate_zero_district("BL10 0AA"))
+
+    def test_BS_area_is_valid_with_0_district_area_digit(self):
+        self.assertTrue(validate_zero_district("BS0 0AA"))
+
     def test_BS_area_is_valid_with_10_district_area_digits(self):
         self.assertTrue(validate_zero_district("BS10 0AA"))
 
-    def test_BS_area_is_invalid_with_other_district_area_digits(self):
-        self.assertFalse(validate_zero_district("BS9 0AA"))
-
-    def test_non_zero_district_for_zero_district_area_returns_false(self):
-        self.assertFalse(validate_zero_district("BL1 0AA"))
+    def test_zero_district_for_invalid_zero_district_area_returns_false(self):
+        self.assertFalse(validate_zero_district("AB0 0AA"))
 
     def test_no_restriction_for_non_zero_district_area(self):
         self.assertTrue(validate_double_digit_district("BR3 4TU"))
