@@ -1,7 +1,8 @@
 from unittest import TestCase
 
 from ukpocopy.validators import validate_postcode, validate_single_digit_district, \
-    validate_double_digit_district, validate_zero_district
+    validate_double_digit_district, validate_zero_district, validate_first_position_letter, \
+    validate_second_position_letter
 
 VALID_POSTCODE = "SW1W 0NY"
 VALID_POSTCODE_WITH_AA9A_9AA_FORMAT = "EC1A 1BB"
@@ -97,3 +98,31 @@ class TestZeroDistrictValidator(TestCase):
 
     def test_no_restriction_for_non_zero_district_area(self):
         self.assertTrue(validate_double_digit_district("BR3 4TU"))
+
+
+class TestFirstPositionLetterValidator(TestCase):
+    def test_valid_first_position_letter(self):
+        self.assertTrue(validate_first_position_letter("BL0 0AA"))
+
+    def test_Q_is_an_invalid_first_position_letter(self):
+        self.assertFalse(validate_first_position_letter("QL0 0AA"))
+
+    def test_V_is_an_invalid_first_position_letter(self):
+        self.assertFalse(validate_first_position_letter("VL0 0AA"))
+
+    def test_X_is_an_invalid_first_position_letter(self):
+        self.assertFalse(validate_first_position_letter("XL0 0AA"))
+
+
+class TestSecondPositionLetterValidator(TestCase):
+    def test_valid_second_letter(self):
+        self.assertTrue(validate_second_position_letter("BL0 0AA"))
+
+    def test_I_is_an_invalid_first_position_letter(self):
+        self.assertFalse(validate_second_position_letter("BI0 0AA"))
+
+    def test_J_is_an_invalid_first_position_letter(self):
+        self.assertFalse(validate_second_position_letter("BJ0 0AA"))
+
+    def test_Z_is_an_invalid_first_position_letter(self):
+        self.assertFalse(validate_second_position_letter("BZ0 0AA"))

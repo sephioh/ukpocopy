@@ -15,7 +15,9 @@ def validate_postcode(code):
         validate_postcode_using_regex,
         validate_single_digit_district,
         validate_double_digit_district,
-        validate_zero_district
+        validate_zero_district,
+        validate_first_position_letter,
+        validate_second_position_letter
     ]
 
     for validation_rule in validation_rules:
@@ -64,6 +66,16 @@ def validate_zero_district(code):
         return False
 
     return True
+
+
+def validate_first_position_letter(code):
+    first_position_letter = code[0].upper()
+    return False if first_position_letter in ['Q', 'V', 'X'] else True
+
+
+def validate_second_position_letter(code):
+    second_position_letter = code[1].upper()
+    return False if second_position_letter in ['I', 'J', 'Z'] else True
 
 
 def _retrieve_postcode_area(code):
