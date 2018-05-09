@@ -48,8 +48,6 @@ def validate_postcode(code):
         except PostcodeValidationError as e:
             raise e
 
-    return True
-
 
 def validate_postcode_using_regex(code):
     UK_POSTCODE_REGEX = "^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})" \

@@ -5,7 +5,7 @@ from ukpocopy.exceptions import InvalidSingleDigitDistrictValidationError, \
     InvalidTenDigitForDistrictAreaValidationError, InvalidFirstPositionLetterValidationError, \
     InvalidSecondPositionLetterValidationError, InvalidThirdPositionLetterValidationError, \
     InvalidFourthPositionLetterValidationError, InvalidFinalTwoLettersError, \
-    InvalidPostcodeFormatValidationError
+    InvalidPostcodeFormatValidationError, PostcodeValidationError
 from ukpocopy.validators import validate_postcode, validate_single_digit_district, \
     validate_double_digit_district, validate_zero_district, validate_first_position_letter, \
     validate_second_position_letter, validate_third_position_letter, \
@@ -14,7 +14,11 @@ from ukpocopy.validators import validate_postcode, validate_single_digit_distric
 
 class TestValidatePostcode(TestCase):
     def test_valid_postcode(self):
-        self.assertTrue(validate_postcode("SW1W 0NY"))
+        self.assertIsNone(validate_postcode("SW1W 0NY"))
+
+    def test_invalid_postcode_raises_exception(self):
+        with self.assertRaises(PostcodeValidationError):
+            self.assertIsNone(validate_postcode("BR30 4TU"))
 
 
 class TestPostcodeRegexValidator(TestCase):
