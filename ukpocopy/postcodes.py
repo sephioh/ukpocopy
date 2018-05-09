@@ -3,9 +3,10 @@ import re
 from ukpocopy.exceptions import InvalidPostcodeException
 from ukpocopy.validators import validate_postcode
 
+POSTCODE_AREA_REGEX_PATTERN = "(^[a-zA-Z]+)"
+
 
 class UKPostcode(object):
-    __POSTCODE_AREA_REGEX_PATTERN = "(^[a-zA-Z]+)"
     __validator = validate_postcode
 
     def __init__(self, postcode):
@@ -31,7 +32,7 @@ class UKPostcode(object):
 
     @property
     def postcode_area(self):
-        return re.match(self.__POSTCODE_AREA_REGEX_PATTERN, self.outward_code).group(0)
+        return re.match(POSTCODE_AREA_REGEX_PATTERN, self.outward_code).group(0)
 
     @property
     def postcode_district(self):
