@@ -18,11 +18,11 @@ pip install -U ukpocopy
 ## Validation
 To validate a postcode, you can use `validate_postcode` function directly:
 ```
-from ukpocopy.validators validate_postcode
+from ukpocopy.validators import validate_postcode
 
 
 validate_postcode("SW1W 0NY")  # returns True
-validate_postcode("0000 000")  # returns False
+validate_postcode("0000 000")  # raises some PostcodeValidationError exceptions
 ```
 
 Postcode validations also happens during `UKPostcode` instantiation:
@@ -31,7 +31,7 @@ from ukpocopy.postcodes import UKPostcode
 
 
 postcode = UKPostcode("SW1W 0NY")  # returns UKPostcode instance
-postcode = UKPostcode("0000 000")  # raises InvalidPostcodeException
+postcode = UKPostcode("0000 000")  # raises some PostcodeValidationError exceptions
 ```
 
 ## Formatting

@@ -1,5 +1,12 @@
 import re
 
+from ukpocopy.exceptions import InvalidSingleDigitDistrictValidationError, \
+    InvalidDoubleDigitDistrictValidationError, InvalidZeroDigitForDistrictAreaValidationError, \
+    InvalidTenDigitForDistrictAreaValidationError, PostcodeValidationError, \
+    InvalidFirstPositionLetterValidationError, InvalidSecondPositionLetterValidationError, \
+    InvalidThirdPositionLetterValidationError, InvalidFourthPositionLetterValidationError, \
+    InvalidFinalTwoLettersError, InvalidPostcodeFormatValidationError
+
 POSTCODE_AREA_REGEX_PATTERN = "(^[a-zA-Z]+)"
 POSTCODE_DISTRICT_DIGITS_REGEX_PATTERN = "^[a-zA-Z]+(\d{1,2})"
 A9A_REGEX_PATTERN = '^[a-zA-Z]\d[a-zA-Z]\s'
@@ -23,7 +30,7 @@ INVALID_FINAL_LETTERS = ["C", "I", "K", "M", "O", "V"]
 
 
 def validate_postcode(code):
-    validation_rules = [
+    validate_rules = [
         validate_postcode_using_regex,
         validate_single_digit_district,
         validate_double_digit_district,
@@ -35,9 +42,11 @@ def validate_postcode(code):
         validate_final_two_letters
     ]
 
-    for validation_rule in validation_rules:
-        if not validation_rule(code):
-            return False
+    for validate_rule in validate_rules:
+        try:
+            validate_rule(code)
+        except PostcodeValidationError as e:
+            raise e
 
     return True
 
@@ -47,7 +56,8 @@ def validate_postcode_using_regex(code):
                         "|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])" \
                         "|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) [0-9][A-Za-z]{2})$"
 
-    return True if re.match(UK_POSTCODE_REGEX, code) else False
+    if not re.match(UK_POSTCODE_REGEX, code):
+        raise InvalidPostcodeFormatValidationError
 
 
 def validate_single_digit_district(code):
@@ -55,9 +65,7 @@ def validate_single_digit_district(code):
     district_digits = _retrieve_postcode_district_digits(code)
 
     if area in AREAS_WITH_ONLY_SINGLE_DIGIT_DISTRICT and len(district_digits) != 1:
-        return False
-
-    return True
+        raise InvalidSingleDigitDistrictValidationError
 
 
 def validate_double_digit_district(code):
@@ -65,9 +73,7 @@ def validate_double_digit_district(code):
     district_digits = _retrieve_postcode_district_digits(code)
 
     if area in AREAS_WITH_ONLY_DOUBLE_DIGIT_DISTRICT and len(district_digits) != 2:
-        return False
-
-    return True
+        raise InvalidDoubleDigitDistrictValidationError
 
 
 def validate_zero_district(code):
@@ -75,22 +81,24 @@ def validate_zero_district(code):
     district_digits = _retrieve_postcode_district_digits(code)
 
     if area not in AREAS_WITH_ZERO_DIGIT_DISTRICT and district_digits == '0':
-        return False
+        raise InvalidZeroDigitForDistrictAreaValidationError
 
     if area in AREAS_WITH_ZERO_DIGIT_DISTRICT and area != 'BS' and district_digits == '10':
-        return False
-
-    return True
+        raise InvalidTenDigitForDistrictAreaValidationError
 
 
 def validate_first_position_letter(code):
     first_position_letter = code[0].upper()
-    return False if first_position_letter in ['Q', 'V', 'X'] else True
+
+    if first_position_letter in ['Q', 'V', 'X']:
+        raise InvalidFirstPositionLetterValidationError
 
 
 def validate_second_position_letter(code):
     second_position_letter = code[1].upper()
-    return False if second_position_letter in ['I', 'J', 'Z'] else True
+
+    if second_position_letter in ['I', 'J', 'Z']:
+        raise InvalidSecondPositionLetterValidationError
 
 
 def validate_third_position_letter(code):
@@ -98,9 +106,7 @@ def validate_third_position_letter(code):
 
     if re.match(A9A_REGEX_PATTERN, code) and \
             third_position_letter not in VALID_THIRD_POSITION_LETTERS_FOR_A9A_FORMAT:
-        return False
-
-    return True
+        raise InvalidThirdPositionLetterValidationError
 
 
 def validate_fourth_position_letter(code):
@@ -108,9 +114,7 @@ def validate_fourth_position_letter(code):
 
     if re.match(AA9A_REGEX_PATTERN, code) and \
             fourth_position_letter not in VALID_FOURTH_POSITION_LETTERS_FOR_AA9A_FORMAT:
-        return False
-
-    return True
+        raise InvalidFourthPositionLetterValidationError
 
 
 def validate_final_two_letters(code):
@@ -118,9 +122,7 @@ def validate_final_two_letters(code):
     next_to_last_letter = code[-2].upper()
 
     if last_letter in INVALID_FINAL_LETTERS or next_to_last_letter in INVALID_FINAL_LETTERS:
-        return False
-
-    return True
+        raise InvalidFinalTwoLettersError
 
 
 def _retrieve_postcode_area(code):

@@ -1,7 +1,7 @@
 from unittest import TestCase
 
+from ukpocopy.exceptions import PostcodeValidationError
 from ukpocopy.postcodes import UKPostcode
-from ukpocopy.exceptions import InvalidPostcodeException
 
 VALID_POSTCODE = "SW1W 0NY"
 INVALID_POSTCODE = "0000 000"
@@ -13,7 +13,7 @@ class TestUKPostcode(TestCase):
         self.assertEqual(VALID_POSTCODE, postcode.code)
 
     def test_instantiate_invalid_postcode_raises_exception(self):
-        with self.assertRaises(InvalidPostcodeException):
+        with self.assertRaises(PostcodeValidationError):
             UKPostcode(INVALID_POSTCODE)
 
     def test_retrieve_outward_code(self):

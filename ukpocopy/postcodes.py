@@ -1,6 +1,5 @@
 import re
 
-from ukpocopy.exceptions import InvalidPostcodeException
 from ukpocopy.validators import validate_postcode
 
 POSTCODE_AREA_REGEX_PATTERN = "(^[a-zA-Z]+)"
@@ -10,9 +9,7 @@ class UKPostcode(object):
     __validator = validate_postcode
 
     def __init__(self, postcode):
-        if not self.__validate(postcode):
-            raise InvalidPostcodeException
-
+        self.__validate(postcode)  # validates postcode before creation
         self.code = postcode.upper()
 
     @classmethod
