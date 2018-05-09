@@ -48,6 +48,20 @@ except PostcodeValidationError:
     pass
 ```
 
+### Validation errors
+All validation errors inherit from `PostcodeValidationError` exception. This is the list of available validation errors:
+* InvalidDoubleDigitDistrictValidationError
+* InvalidFinalTwoLettersError
+* InvalidFirstPositionLetterValidationError
+* InvalidFourthPositionLetterValidationError
+* InvalidPostcodeFormatValidationError
+* InvalidSecondPositionLetterValidationError
+* InvalidSingleDigitDistrictValidationError
+* InvalidTenDigitForDistrictAreaValidationError
+* InvalidThirdPositionLetterValidationError
+* InvalidZeroDigitForDistrictAreaValidationError
+
+
 ## Formatting
 `ukpocopy` uses [formatted string literals](https://docs.python.org/3/reference/lexical_analysis.html#formatted-string-literals) to format postcodes.
 `UKPostcode` has the following attributes you want to use in order to render them the way you need:
