@@ -21,6 +21,14 @@ AREAS_WITH_ONLY_SINGLE_DIGIT_DISTRICT = [
 AREAS_WITH_ONLY_DOUBLE_DIGIT_DISTRICT = ["AB", "LL", "SO"]
 AREAS_WITH_ZERO_DIGIT_DISTRICT = ["BL", "BS", "CM", "CR", "FY", "HA", "PR", "SL", "SS"]
 
+CENTRAL_LONDON_SINGLE_DIGIT_DISTRICTS_WITHOUT_LAST_LETTER = [
+    "EC1", "EC2", "EC3", "EC4", "SW1", "W1", "WC1", "WC2"
+]
+
+OTHER_POSSIBLE_CENTRAL_LONDON_SINGLE_DIGIT_DISTRICTS_WITH_LAST_LETTER = [
+    "E1W", "N1C", "N1P", "NW1W", "SE1P"
+]
+
 VALID_THIRD_POSITION_LETTERS_FOR_A9A_FORMAT = [
     "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "P", "S", "T", "U", "W"
 ]
@@ -128,14 +136,6 @@ def validate_final_two_letters(code):
 
 
 def validate_central_london_single_digit_district(code):
-    CENTRAL_LONDON_SINGLE_DIGIT_DISTRICTS_WITHOUT_LAST_LETTER = [
-        "EC1", "EC2", "EC3", "EC4", "SW1", "W1", "WC1", "WC2"
-    ]
-
-    OTHER_POSSIBLE_CENTRAL_LONDON_SINGLE_DIGIT_DISTRICTS_WITH_LAST_LETTER = [
-        "E1W", "N1C", "N1P", "NW1W", "SE1P"
-    ]
-
     if re.match(A9A_or_AA9A_REGEX_PATTERN, code):
         postcode_district = _retrieve_postcode_district(code)
         district_code_without_last_letter = postcode_district[:-1]
@@ -152,10 +152,20 @@ def _retrieve_postcode_district(code):
 
 
 def _retrieve_postcode_area(code):
-    area = re.match(POSTCODE_AREA_REGEX_PATTERN, code).group(0)
-    return area.upper()
+    area = None
+    re_match = re.match(POSTCODE_AREA_REGEX_PATTERN, code)
+
+    if re_match:
+        area = re_match.group(0).upper()
+
+    return area
 
 
 def _retrieve_postcode_district_digits(code):
-    district_digits = re.match(POSTCODE_DISTRICT_DIGITS_REGEX_PATTERN, code).group(1)
+    district_digits = None
+    re_match = re.match(POSTCODE_DISTRICT_DIGITS_REGEX_PATTERN, code)
+
+    if re_match:
+        district_digits = re_match.group(1)
+
     return district_digits

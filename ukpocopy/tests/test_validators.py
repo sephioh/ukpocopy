@@ -79,6 +79,9 @@ class TestSingleDigitDistrictValidator(TestCase):
     def test_no_restriction_for_non_single_digit_district_area(self):
         self.assertIsNone(validate_single_digit_district("B33 8TH"))
 
+    def test_postcodes_with_no_digits_are_not_invalidated(self):
+        self.assertIsNone(validate_single_digit_district("GIG 8TH"))
+
 
 class TestDoubleDigitDistrictValidator(TestCase):
     def test_area_with_double_digit_district(self):
@@ -102,6 +105,9 @@ class TestDoubleDigitDistrictValidator(TestCase):
     def test_SO_area_must_have_double_digits(self):
         with self.assertRaises(InvalidDoubleDigitDistrictValidationError):
             validate_double_digit_district("SO1 1AA")
+
+    def test_postcodes_with_no_digits_are_not_invalidated(self):
+        self.assertIsNone(validate_single_digit_district("GIG 8TH"))
 
 
 class TestZeroDistrictValidator(TestCase):
