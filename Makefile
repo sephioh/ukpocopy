@@ -13,5 +13,9 @@ publish:
 	twine upload dist/*
 	rm -fr build dist
 
+setup-env:
+	pipenv install --dev
+	pipenv shell
+
 test:
 	nosetests --with-coverage
